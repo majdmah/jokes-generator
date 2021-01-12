@@ -1,20 +1,24 @@
 package com.majd.jokesgenerator.controllers;
 
 import com.majd.jokesgenerator.services.JokesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class JokesController {
-    final private JokesService jokesService;
+    private final JokesService jokesService;
 
+    @Autowired
     public JokesController(JokesService jokesService) {
         this.jokesService = jokesService;
     }
 
-    @RequestMapping("/")
-    public String getJoke(){
-        return jokesService.getJoke();
+    @RequestMapping({"/",""})
+    public String getJoke(Model model){
+
+        model.addAttribute("joke",jokesService.getJoke());
+        return "chucknorris";
     }
 }
